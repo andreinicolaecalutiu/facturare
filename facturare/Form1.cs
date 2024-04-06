@@ -21,19 +21,18 @@
 
             txtDescription.Text = "";
             txtPrice.Text = "";
-
-            //MessageBox.Show(description + price);
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
-            double taxRate = Convert.ToDouble(txtTaxRate.Text);
-            invoice = invoiceFactory.CreateInvoice("Factura", taxRate);
-            InvoiceGenerator.GetInstance().GenerateAndSaveInvoice(invoice, txtNumeClient.Text);
+            InvoiceGenerator.GetInstance().GenerateAndSaveInvoice(invoice, txtNumeClient.Text, txtPhone.Text);
 
+            txtNumeClient.Text = "";
+            txtPhone.Text = "";
             txtDescription.Text = "";
             txtPrice.Text = "";
             txtSubtotal.Text = "";
             txtTotal.Text = "";
+            txtTaxRate.Text = "";
         }
     }
 }

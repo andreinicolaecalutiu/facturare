@@ -8,9 +8,9 @@ namespace facturare
 {
     internal class TaxInvoiceFactory : IInvoiceFactory
     {
-        public IInvoice CreateInvoice(string type, double taxRate)
+        public IInvoice CreateInvoice(string type, double TaxRate)
         {
-            return new Invoice(type, taxRate);
+            return new Invoice(type, TaxRate);
         }
     }
 }

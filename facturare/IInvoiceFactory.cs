@@ -8,6 +8,6 @@ namespace facturare
 {
     internal interface IInvoiceFactory
     {
-        IInvoice CreateInvoice(string type, double taxRate);
+        IInvoice CreateInvoice(string type, double TaxRate);
     }
 }
