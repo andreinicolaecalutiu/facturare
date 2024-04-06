@@ -28,7 +28,7 @@
         {
             double taxRate = Convert.ToDouble(txtTaxRate.Text);
             invoice = invoiceFactory.CreateInvoice("Factura", taxRate);
-            InvoiceGenerator.GetInstance().GenerateAndSaveInvoice(invoice);
+            InvoiceGenerator.GetInstance().GenerateAndSaveInvoice(invoice, txtNumeClient.Text);
 
             txtDescription.Text = "";
             txtPrice.Text = "";

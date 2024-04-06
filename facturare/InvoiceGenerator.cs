@@ -22,10 +22,9 @@ namespace facturare
             }
             return instance;
         }
-        public void GenerateAndSaveInvoice(IInvoice invoice)
+        public void GenerateAndSaveInvoice(IInvoice invoice, String customer)
         {
-
-            string fileName = $"{invoice.Type.Replace(" ", "_").ToLower()}_invoice.pdf";
+            string fileName = $"{invoice.Type.Replace(" ", "_").ToLower()}_{customer}_invoice.pdf";
             string path = @"C:\Users\andre\OneDrive\Desktop";
 
             string filePath = Path.Combine(path, fileName);
