@@ -1,6 +1,8 @@
-﻿using iText.Kernel.Pdf;
+﻿using iText.Kernel.Font;
+using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
+using iText.Layout.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +24,9 @@ namespace facturare
             }
             return instance;
         }
-        public void GenerateAndSaveInvoice(IInvoice invoice, String customer, String phone)
+        public void GenerateAndSaveInvoice(IInvoice invoice)
         {
-            string fileName = $"{invoice.Type.Replace(" ", "_").ToLower()}_{customer}.pdf";
+            string fileName = $"{invoice.Type.Replace(" ", "_").ToLower()}_{invoice.CustomerName}.pdf";
             string path = @"C:\Users\andre\OneDrive\Desktop";
 
             string filePath = Path.Combine(path, fileName);
@@ -34,18 +36,39 @@ namespace facturare
                 using (PdfDocument pdf = new PdfDocument(writer))
                 {
                     Document document = new Document(pdf);
-                    document.Add(new Paragraph($"Type: {invoice.Type}"));
 
-                    document.Add(new Paragraph($"Client: {customer}"));
-                    document.Add(new Paragraph($"Telefon: {phone}"));
+                    Paragraph title = new Paragraph($"Document -- {invoice.Type}")
+                        .SetTextAlignment(TextAlignment.CENTER)
+                        .SetFontSize(20)
+                        .SetBold();
+                    document.Add(title);
+
+                    Paragraph customerInfo = new Paragraph()
+                        .Add("Name: ").Add(new Text(invoice.CustomerName).SetBold()).Add("\n")
+                        .Add("Phone: ").Add(new Text(invoice.PhoneNumber).SetBold());
+                    document.Add(customerInfo);
+
+                    Table table = new Table(2).SetTextAlignment(TextAlignment.CENTER);
+                    table.AddCell("Description").SetBold();
+                    table.AddCell("Price").SetBold();
 
                     foreach (var item in invoice.Items)
                     {
-                        document.Add(new Paragraph($"Item: {item.Description}, Price: {item.Price}"));
+                        table.AddCell(item.Description);
+                        table.AddCell(item.Price.ToString());
                     }
 
-                    document.Add(new Paragraph($"Subtotal: {invoice.Subtotal}"));
-                    document.Add(new Paragraph($"Total (including {invoice.TaxRate}% VAT): {invoice.CalculateTotal()}"));
+                    document.Add(table);
+
+                    Paragraph subtotal = new Paragraph($"Subtotal: {invoice.Subtotal}").SetBold();
+                    Paragraph total = new Paragraph($"Total (including {invoice.TaxRate}% VAT): {invoice.CalculateTotal()}").SetBold();
+                    
+                    document.Add(subtotal);
+                    document.Add(total);
+
+                    Paragraph remarks = new Paragraph("Thank you for doing business with us! No need for stamp or signature!").SetTextAlignment(TextAlignment.CENTER);
+                    document.Add(remarks);
+
                     document.Close();
                 }
             }

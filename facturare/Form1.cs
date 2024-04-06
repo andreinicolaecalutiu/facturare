@@ -24,7 +24,9 @@
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
-            InvoiceGenerator.GetInstance().GenerateAndSaveInvoice(invoice, txtNumeClient.Text, txtPhone.Text);
+            invoice.AddDetails(txtNumeClient.Text, txtPhone.Text);
+            
+            InvoiceGenerator.GetInstance().GenerateAndSaveInvoice(invoice);
 
             txtNumeClient.Text = "";
             txtPhone.Text = "";
