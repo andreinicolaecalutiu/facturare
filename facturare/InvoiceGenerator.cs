@@ -4,6 +4,7 @@ using iText.Kernel.Pdf.Canvas.Draw;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace facturare
     public delegate void InvoiceGeneratedEventHandler(object sender, EventArgs e);
     internal class InvoiceGenerator
     {
+        private const string jsonFilePath = "D:\\MASTER STIA\\MEDII ȘI PLATFORME DE DEZVOLTARE AVANSATE\\facturare\\facturare\\invoice_number.json";
         public event InvoiceGeneratedEventHandler InvoiceGenerated;
         private static InvoiceGenerator? instance;
         private InvoiceGenerator() { }
@@ -32,6 +34,7 @@ namespace facturare
             string path = @"D:\MASTER STIA\MEDII ȘI PLATFORME DE DEZVOLTARE AVANSATE\facturare\facturi";
 
             string filePath = Path.Combine(path, fileName);
+            int invoiceNumber = getLastInvoiceNumber();
 
             using (PdfWriter writer = new PdfWriter(filePath))
             {
@@ -39,7 +42,7 @@ namespace facturare
                 {
                     Document document = new Document(pdf);
 
-                    Paragraph title = new Paragraph($"Document -- {invoice.Type}")
+                    Paragraph title = new Paragraph($"Document -- {invoice.Type} -- Numar -- {invoiceNumber}")
                         .SetTextAlignment(TextAlignment.CENTER)
                         .SetFontSize(20)
                         .SetBold();
@@ -92,12 +95,46 @@ namespace facturare
                     document.Close();
                 }
             }
-            //MessageBox.Show($"Documentul de tipul {invoice.Type} a fost generată și salvată ca {fileName}");
+            //MessageBox.Show($"Documentul de tipul {invoice.Type} a fost generat și salvat ca {fileName}");
+            invoiceNumber += 1;
+            updateLastInvoiceNumber(invoiceNumber);
             OnInvoiceGenerated();
         }
         protected virtual void OnInvoiceGenerated()
         {
             InvoiceGenerated?.Invoke(this, EventArgs.Empty);
+        }
+        public static int getLastInvoiceNumber()
+        {
+            if (File.Exists(jsonFilePath))
+            {
+                try
+                {
+                    string json = File.ReadAllText(jsonFilePath);
+
+                    var data = JsonConvert.DeserializeObject<InvoiceNumberJSON>(json);
+
+                    return data.LastInvoiceNumber;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error reading JSON file: {ex.Message}");
+                }
+            }
+            return 0;
+        }
+        public static void updateLastInvoiceNumber (int newNumber)
+        {
+            try
+            {
+                var data = new InvoiceNumberJSON { LastInvoiceNumber = newNumber };
+                string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+                File.WriteAllText(jsonFilePath, json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating JSON file: {ex.Message}");
+            }
         }
     }
 }
