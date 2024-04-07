@@ -12,10 +12,11 @@ using System.Threading.Tasks;
 
 namespace facturare
 {
+    public delegate void InvoiceGeneratedEventHandler(object sender, EventArgs e);
     internal class InvoiceGenerator
     {
+        public event InvoiceGeneratedEventHandler InvoiceGenerated;
         private static InvoiceGenerator? instance;
-        
         private InvoiceGenerator() { }
         public static InvoiceGenerator GetInstance()
         {
@@ -91,7 +92,12 @@ namespace facturare
                     document.Close();
                 }
             }
-            MessageBox.Show($"Documentul de tipul {invoice.Type} a fost generată și salvată ca {fileName}");
+            //MessageBox.Show($"Documentul de tipul {invoice.Type} a fost generată și salvată ca {fileName}");
+            OnInvoiceGenerated();
+        }
+        protected virtual void OnInvoiceGenerated()
+        {
+            InvoiceGenerated?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -25,7 +25,12 @@
         private void btnSave_Click(object sender, EventArgs e)
         {
             invoice.AddDetails(txtNumeClient.Text, txtPhone.Text);
-            
+
+            InvoiceGenerator.GetInstance().InvoiceGenerated += (sender, args) =>
+            {
+                MessageBox.Show("Documentul a fost emis cu succes!", "Facturare", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            };
+
             InvoiceGenerator.GetInstance().GenerateAndSaveInvoice(invoice);
 
             invoice.Items.Clear();
