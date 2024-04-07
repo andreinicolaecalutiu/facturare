@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
+using facturare;
 
-namespace facturare
+namespace TestProject
 {
-    [TestFixture]
-    public class InvoiceTests
+    [TestClass]
+    public class UnitTest1
     {
-        [Test]
+        [TestMethod]
         public void CalculateTotal_ReturnsCorrectTotal()
         {
             var invoice = new Invoice("Fiscal", 19);
@@ -15,10 +15,10 @@ namespace facturare
 
             double total = invoice.CalculateTotal();
 
-            Assert.Equals(330, total);
+            Assert.AreEqual(357, total);
         }
 
-        [Test]
+        [TestMethod]
         public void AddItem_AddsItemToInvoice()
         {
             var invoice = new Invoice("Fiscal", 19);
@@ -26,28 +26,28 @@ namespace facturare
 
             invoice.AddItem("Item 1", 100);
 
-            Assert.Equals(1, invoice.Items.Count); 
-            Assert.Equals(100, invoice.Subtotal);
+            Assert.AreEqual(1, invoice.Items.Count);
+            Assert.AreEqual(100, invoice.Subtotal);
         }
 
-        [Test]
+        [TestMethod]
         public void CalculateTotal_EmptyInvoice_ReturnsZero()
         {
             var invoice = new Invoice("Fiscal", 19);
 
             double total = invoice.CalculateTotal();
 
-            Assert.Equals(0, total);
+            Assert.AreEqual(0, total);
         }
 
-        [Test]
+        [TestMethod]
         public void Form_ClosesOnCloseMethod()
         {
             var form = new Form1();
 
             form.Close();
 
-            Assert.That(form.IsDisposed);
+            Assert.IsTrue(form.IsDisposed);
         }
     }
 }

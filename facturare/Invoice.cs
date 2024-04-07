@@ -17,8 +17,8 @@ namespace facturare
         public List<IInvoiceItem> Items { get; }
         public double Subtotal { get; private set; }
         public double TaxRate { get; }
-        public String CustomerName {  get; private set; }
-        public String PhoneNumber {  get; private set; }
+        public String? CustomerName {  get; private set; }
+        public String? PhoneNumber {  get; private set; }
 
         public Invoice (string type, double taxRate)
         {
