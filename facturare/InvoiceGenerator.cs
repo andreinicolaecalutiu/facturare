@@ -1,5 +1,6 @@
 ﻿using iText.Kernel.Font;
 using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas.Draw;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
@@ -27,7 +28,7 @@ namespace facturare
         public void GenerateAndSaveInvoice(IInvoice invoice)
         {
             string fileName = $"{invoice.Type.Replace(" ", "_").ToLower()}_{invoice.CustomerName}.pdf";
-            string path = @"C:\Users\andre\OneDrive\Desktop";
+            string path = @"D:\MASTER STIA\MEDII ȘI PLATFORME DE DEZVOLTARE AVANSATE\facturare\facturi";
 
             string filePath = Path.Combine(path, fileName);
 
@@ -43,14 +44,22 @@ namespace facturare
                         .SetBold();
                     document.Add(title);
 
+                    document.Add(new Paragraph("\n"));
+                    document.Add(new LineSeparator(new SolidLine()));
+                    document.Add(new Paragraph("\n"));
+
                     Paragraph customerInfo = new Paragraph()
-                        .Add("Name: ").Add(new Text(invoice.CustomerName).SetBold()).Add("\n")
-                        .Add("Phone: ").Add(new Text(invoice.PhoneNumber).SetBold());
+                        .Add("Nume: ").Add(new Text(invoice.CustomerName).SetBold()).Add("\n")
+                        .Add("Telefon: ").Add(new Text(invoice.PhoneNumber).SetBold());
                     document.Add(customerInfo);
 
-                    Table table = new Table(2).SetTextAlignment(TextAlignment.CENTER);
-                    table.AddCell("Description").SetBold();
-                    table.AddCell("Price").SetBold();
+                    document.Add(new Paragraph("\n"));
+                    document.Add(new LineSeparator(new SolidLine()));
+                    document.Add(new Paragraph("\n"));
+
+                    Table table = new Table(2);
+                    table.AddCell("Produs").SetTextAlignment(TextAlignment.CENTER);
+                    table.AddCell("Pret").SetTextAlignment(TextAlignment.CENTER);
 
                     foreach (var item in invoice.Items)
                     {
@@ -58,21 +67,31 @@ namespace facturare
                         table.AddCell(item.Price.ToString());
                     }
 
+                    table.SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER);
                     document.Add(table);
 
+                    document.Add(new Paragraph("\n"));
+                    document.Add(new LineSeparator(new SolidLine()));
+                    document.Add(new Paragraph("\n"));
+
                     Paragraph subtotal = new Paragraph($"Subtotal: {invoice.Subtotal}").SetBold();
-                    Paragraph total = new Paragraph($"Total (including {invoice.TaxRate}% VAT): {invoice.CalculateTotal()}").SetBold();
+                    Paragraph total = new Paragraph($"Total (inclusiv {invoice.TaxRate}% TVA): {invoice.CalculateTotal()}").SetBold();
                     
                     document.Add(subtotal);
                     document.Add(total);
 
-                    Paragraph remarks = new Paragraph("Thank you for doing business with us! No need for stamp or signature!").SetTextAlignment(TextAlignment.CENTER);
+                    document.Add(new Paragraph("\n"));
+                    document.Add(new LineSeparator(new SolidLine()));
+                    document.Add(new Paragraph("\n"));
+                    document.Add(new Paragraph("\n"));
+
+                    Paragraph remarks = new Paragraph("Mulțummim pentru încredere!").SetTextAlignment(TextAlignment.CENTER);
                     document.Add(remarks);
 
                     document.Close();
                 }
             }
-            MessageBox.Show($"Factura de tipul {invoice.Type} a fost generată și salvată ca {fileName}");
+            MessageBox.Show($"Documentul de tipul {invoice.Type} a fost generată și salvată ca {fileName}");
         }
     }
 }

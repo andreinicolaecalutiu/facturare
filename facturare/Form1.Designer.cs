@@ -42,8 +42,6 @@
             txtNumeClient = new TextBox();
             lblPhone = new Label();
             txtPhone = new TextBox();
-            lblTaxRate = new Label();
-            txtTaxRate = new TextBox();
             SuspendLayout();
             // 
             // lblDescription
@@ -91,7 +89,7 @@
             // lblSubtotal
             // 
             lblSubtotal.AutoSize = true;
-            lblSubtotal.Location = new Point(58, 412);
+            lblSubtotal.Location = new Point(58, 476);
             lblSubtotal.Name = "lblSubtotal";
             lblSubtotal.Size = new Size(108, 30);
             lblSubtotal.TabIndex = 5;
@@ -99,7 +97,7 @@
             // 
             // txtSubtotal
             // 
-            txtSubtotal.Location = new Point(226, 407);
+            txtSubtotal.Location = new Point(226, 471);
             txtSubtotal.Name = "txtSubtotal";
             txtSubtotal.Size = new Size(392, 35);
             txtSubtotal.TabIndex = 6;
@@ -117,7 +115,7 @@
             // lblTotal
             // 
             lblTotal.AutoSize = true;
-            lblTotal.Location = new Point(58, 471);
+            lblTotal.Location = new Point(58, 535);
             lblTotal.Name = "lblTotal";
             lblTotal.Size = new Size(72, 30);
             lblTotal.TabIndex = 8;
@@ -125,7 +123,7 @@
             // 
             // txtTotal
             // 
-            txtTotal.Location = new Point(226, 466);
+            txtTotal.Location = new Point(226, 530);
             txtTotal.Name = "txtTotal";
             txtTotal.Size = new Size(392, 35);
             txtTotal.TabIndex = 9;
@@ -162,29 +160,11 @@
             txtPhone.Size = new Size(642, 35);
             txtPhone.TabIndex = 13;
             // 
-            // lblTaxRate
-            // 
-            lblTaxRate.AutoSize = true;
-            lblTaxRate.Location = new Point(58, 536);
-            lblTaxRate.Name = "lblTaxRate";
-            lblTaxRate.Size = new Size(49, 30);
-            lblTaxRate.TabIndex = 14;
-            lblTaxRate.Text = "TAX";
-            // 
-            // txtTaxRate
-            // 
-            txtTaxRate.Location = new Point(226, 531);
-            txtTaxRate.Name = "txtTaxRate";
-            txtTaxRate.Size = new Size(392, 35);
-            txtTaxRate.TabIndex = 15;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(927, 697);
-            Controls.Add(txtTaxRate);
-            Controls.Add(lblTaxRate);
             Controls.Add(txtPhone);
             Controls.Add(lblPhone);
             Controls.Add(txtNumeClient);
@@ -221,7 +201,5 @@
         private TextBox txtNumeClient;
         private Label lblPhone;
         private TextBox txtPhone;
-        private Label lblTaxRate;
-        private TextBox txtTaxRate;
     }
 }

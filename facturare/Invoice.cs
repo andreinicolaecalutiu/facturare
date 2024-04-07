@@ -1,13 +1,18 @@
-﻿using System; 
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
+using System; 
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace facturare
 {
-    internal class Invoice : IInvoice
+    public class Invoice : IInvoice
     {
+        public int InvoiceNumber { get; set; }
         public string Type { get; }
         public List<IInvoiceItem> Items { get; }
         public double Subtotal { get; private set; }
@@ -41,7 +46,8 @@ namespace facturare
         }
         public double CalculateTotal()
         {
-            return Subtotal * (1 + TaxRate / 100);
+            double total = Subtotal * (1 + TaxRate / 100);
+            return Math.Round(total, 2);
         }
     }
 }

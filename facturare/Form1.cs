@@ -28,13 +28,13 @@
             
             InvoiceGenerator.GetInstance().GenerateAndSaveInvoice(invoice);
 
+            invoice.Items.Clear();
             txtNumeClient.Text = "";
             txtPhone.Text = "";
             txtDescription.Text = "";
             txtPrice.Text = "";
             txtSubtotal.Text = "";
             txtTotal.Text = "";
-            txtTaxRate.Text = "";
         }
     }
 }
