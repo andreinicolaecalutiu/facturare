@@ -95,7 +95,6 @@ namespace facturare
                     document.Close();
                 }
             }
-            //MessageBox.Show($"Documentul de tipul {invoice.Type} a fost generat și salvat ca {fileName}");
             invoiceNumber += 1;
             updateLastInvoiceNumber(invoiceNumber);
             OnInvoiceGenerated();
